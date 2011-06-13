@@ -10,8 +10,8 @@ class iCalEmitter(Emitter):
 		data = self.construct()
 		cal = Calendar()
 		
-		cal.add('prodid', 'K-State iCalendar Feed')
-		cal.add('version', '2.0')
+		cal.add('prodid', 'iCalendar Feed')
+		cal.add('version', '1.0')
 		for newevent in data:
 			ical_event = calEvent()
 			ical_event.add('summary', newevent['description'])
@@ -20,10 +20,7 @@ class iCalEmitter(Emitter):
 				ical_event.add('dtend', occurrence['end_date'])
 			ical_event['uid'] = newevent['id']
 			cal.add_component(ical_event)
-			
-			#respone = HttpResponse(cal.as_string(), mimetype="text/calendar")
-			#response['Content-Disposition'] = 'attachment; filename=homepage.ics'
-			#return response
+
 			return cal.as_string()
 
 Emitter.register('ical', iCalEmitter, 'charset=utf-8')
